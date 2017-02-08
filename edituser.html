@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta  name="viewport" http-equiv="Content-Type"/>
+<meta content="text/html; charset=utf-8" />
+<title>Testing file</title>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="css/bootstrap.min.css" media="all">
+<link href="css/bootstrap.css" rel="stylesheet">
+
+<!-- jQuery library -->
+<script src="js/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+
+<style>
+#bgcolor{
+	background-color:ghostwhite;
+	 }
+#forms{
+align:center;
+}	 
+	 
+	 
+
+</style>
+
+</head>
+<body id="bgcolor" onload="viewdata()">
+<div class="container-fluid" >
+  <section> 
+  <div class="row">
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav navbar-left">
+        <li class="active"><a href="index.html">User Master</a></li>
+		<li ><a href="../../">Contact Us</a></li>
+		</ul>
+		
+     </div>
+  </div>
+</nav>
+   </div>
+</section>
+<div>
+<h3 style="float:left">User Master</h3>
+</div>	
+<div style="padding:100px" id="forms">
+<div class="form-signin form-horizontal" name="myform" >
+              <div class="form-group">
+                <label class="control-label col-sm-3"  > UserName </label>
+                <div class="col-sm-6">          
+                    <input type="hidden" class="form-control" id="id"  required autocomplete="on" maxlength="30">
+                <input type="name" class="form-control" id="name"  required autocomplete="on" maxlength="30">
+                </div>
+              </div>
+			  <div class="form-group">
+                <label class="control-label col-sm-3"  > Password </label>
+                <div class="col-sm-6">          
+                <input type="name" class="form-control" id="pwd"  required autocomplete="on" maxlength="30">
+                </div>
+              </div>
+			  <div align="center" style="padding:20px">
+                <button class="btn btn-success"   onclick="savedata()">Submit</button>
+                
+		     </div>
+ </div>
+   <div id="viewdata"></div>
+    
+
+</div>
+	
+</div>
+</body>
+</html>
+
+
+  
+ <script>
+    function viewdata(){
+        function getUrlVars() {
+var vars = {};
+var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+vars[key] = value;
+});
+return vars;
+}
+var $id = getUrlVars()["id"];
+var $name = getUrlVars()["name"];
+var $pwd = getUrlVars()["pwd"];
+
+	console.log($id);
+	console.log($name);
+        console.log($pwd);
+        document.getElementById("id").value = $id;
+	document.getElementById("name").value = $name;
+    document.getElementById("pwd").value = $pwd;
+       $.ajax({
+	   type: "GET",
+	   url: "php/getjson.php"
+      }).done(function( data ) {
+	  $('#viewdata').html(data);
+      });
+            
+ 
+    
+   
+         
+     };
+function savedata()
+     {
+         var id = $('#id').val();
+         var name = $('#name').val();
+         var pwd= $('#pwd').val();
+         var datas="&id="+id+"&name="+name+"&pwd="+pwd;
+        
+         $.ajax({
+	   type: "POST",
+	   url: "php/edit.php",
+	   data: datas
+	}).done(function( data ) {
+    $('#info').html(data);
+	  window.location.assign("index.html")
+         });
+     };
+
+</script>
